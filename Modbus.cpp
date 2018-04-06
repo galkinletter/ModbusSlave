@@ -1,8 +1,8 @@
 // Do not remove the include below
 #include "Modbus.h"
-#include "cEcho.h"
+#include "cModbusSlave.h"
 
-cEcho echo(&Serial);
+cModbusSlave modbusSlave(&Serial, 1);
 
 
 //The setup function is called once at startup of the sketch
@@ -14,6 +14,5 @@ void setup()
 // The loop function is called in an endless loop
 void loop()
 {
-	echo.Run();
-	delay(1);
+	modbusSlave.Run();
 }

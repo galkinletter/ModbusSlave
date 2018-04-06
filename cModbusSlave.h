@@ -12,6 +12,7 @@
 
 #define BUFFER_SIZE			64
 #define POSITION_ADDRESS	0
+#define CHAR_TIMEOUT		2
 
 class cModbusSlave {
 public:
@@ -20,10 +21,18 @@ public:
 
 private:
 	HardwareSerial *stream;
+
 	bool isPackageReady;
+
 	uint8_t inBuffer[BUFFER_SIZE];
+	uint8_t inBufferLength;
+
 	uint16_t CRC_errorsCounter;
+
 	uint8_t myAddress;
+
+	uint32_t slicingLastVisitTime;
+
 	void packageSlicing(void);
 
 	void packageHandler(void);
