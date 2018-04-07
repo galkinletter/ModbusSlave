@@ -50,6 +50,8 @@ void cModbusSlave::packageSlicing(void){
 }
 
 void cModbusSlave::packageHandler(void){
+
+
 	if (isPackageReady){
 
 		stream->readBytes(inBuffer, inBufferLength);
@@ -64,9 +66,9 @@ void cModbusSlave::packageHandler(void){
 				break;
 			}
 
-			//TODO: We have to implement function handling here.
+			functionsHandler();
 
-			stream->write(inBuffer, inBufferLength);
+//			stream->write(inBuffer, inBufferLength);
 
 			break;
 		}while(false);
@@ -74,6 +76,48 @@ void cModbusSlave::packageHandler(void){
 		isPackageReady = false;
 		inBufferLength = 0;
 	}
+}
+
+bool cModbusSlave::functionsHandler(void){
+	uint8_t functionCode = 0;
+
+	functionCode = inBuffer[POSITION_FUNCTION];
+	stream->print("Function code:");
+	stream->println(functionCode);
+	switch (functionCode) {
+	case 0x03:
+	case 0x04:
+		function_0x03_Handler();
+		break;
+	case 0x06:
+
+		break;
+	default:
+		// TODO: We have to implement exceptions handling
+		break;
+	}
+
+
+}
+
+void cModbusSlave::function_0x03_Handler(void){
+	uint16_t registersAmount = 0;
+	uint16_t registerFirst = 0;
+
+	registersAmount = inBuffer[4];
+	registersAmount = registersAmount << 8;
+	registersAmount |= inBuffer[5];
+
+
+	switch(registerFirst){
+	case 1 :
+
+		break;
+		2
+		3
+
+	}
+
 }
 
 bool cModbusSlave::isCRC_ok(void){

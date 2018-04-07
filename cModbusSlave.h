@@ -12,7 +12,9 @@
 
 #define BUFFER_SIZE			64
 #define POSITION_ADDRESS	0
-#define CHAR_TIMEOUT		2
+#define POSITION_FUNCTION	1
+#define CHAR_TIMEOUT		1
+
 
 class cModbusSlave {
 public:
@@ -42,6 +44,10 @@ private:
 	bool isAddressMy(void);
 
 	void incrementCRCerrorsCounter(void);
+
+	bool functionsHandler(void);
+
+	void function_0x03_Handler(void);
 
 };
 
