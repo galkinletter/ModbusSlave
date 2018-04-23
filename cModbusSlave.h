@@ -15,6 +15,53 @@
 #define POSITION_FUNCTION	1
 #define CHAR_TIMEOUT		1
 
+/**
+@startuml
+	cModbusSlave o-down- cModbusRegisters
+	cModbusRegisters o-down- cDatabase
+@enduml
+
+@startuml
+	cModbusSlave o-right- cModbusRegisters
+	cModbusRegisters o-right- cDatabase
+
+	class cModbusSlave {
+		+ Run()
+	}
+
+	class cModbusRegisters{
+		+getRegisterValue(registerNumber)
+		+setRegisterValue(registerNumber, registerValue)
+		--
+		-getDatabaseId(registerNumber)
+	}
+
+	class cDatabase{
+		+ getParameterValue(paramId)
+		+ setParameterVelue(paramId, value)
+	}
+
+
+@enduml
+
+@startuml
+	activate  cModbusSlave
+	cModbusSlave -> cModbusRegisters : getRegisterValue(registerNumber)
+	activate cModbusRegisters
+	cModbusRegisters -> cModbusRegisters :getDatabaseId(registerNumber)
+	cModbusRegisters -> cDatabase : getParameterValue(paramId)
+	activate cDatabase
+	cDatabase -> cModbusRegisters : return parameterValue
+	deactivate cDatabase
+	cModbusRegisters -> cModbusSlave : return registerValue
+	deactivate cModbusRegisters
+	deactivate cModbusSlave
+@enduml
+
+
+**/
+
+
 
 class cModbusSlave {
 public:

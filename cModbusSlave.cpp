@@ -108,15 +108,11 @@ void cModbusSlave::function_0x03_Handler(void){
 	registersAmount = registersAmount << 8;
 	registersAmount |= inBuffer[5];
 
+	registerFirst  = inBuffer[3];
 
-	switch(registerFirst){
-	case 1 :
+	getRegisterValue(registerNumber);
 
-		break;
-		2
-		3
-
-	}
+	// TODO : We have to find how to get register value
 
 }
 
