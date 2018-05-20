@@ -1,8 +1,13 @@
 // Do not remove the include below
 #include "Modbus.h"
 #include "cModbusSlave.h"
+#include "cModbusRegisters.h"
+#include "cDatabase.h"
 
-cModbusSlave modbusSlave(&Serial, 1);
+cDatabase DB;
+cModbusRegisters mRegister(&DB);
+
+cModbusSlave modbusSlave(&Serial, 1, &mRegister);
 
 
 //The setup function is called once at startup of the sketch

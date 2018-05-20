@@ -7,14 +7,14 @@
 
 #include "cModbusSlave.h"
 
-cModbusSlave::cModbusSlave(HardwareSerial *serial,  uint8_t myAddress) {
+cModbusSlave::cModbusSlave(HardwareSerial *serial,  uint8_t myAddress, cModbusRegisters *modbusReg) {
 	this->stream 				= serial;
 	this->isPackageReady 		= false;
 	this->myAddress				= myAddress;
 	this->CRC_errorsCounter 	= 0;
 	this->slicingLastVisitTime 	= 0;
 	this->inBufferLength		= 0;
-
+    this->modbusRegister        = modbusReg;
 }
 
 void cModbusSlave::Run(void){
@@ -98,6 +98,7 @@ bool cModbusSlave::functionsHandler(void){
 	}
 
 
+return true;
 }
 
 void cModbusSlave::function_0x03_Handler(void){
@@ -110,7 +111,11 @@ void cModbusSlave::function_0x03_Handler(void){
 
 	registerFirst  = inBuffer[3];
 
-	getRegisterValue(registerNumber);
+
+	uint8_t registerNumber = inBuffer[2];
+	uint16_t returnedValue;
+
+	this->modbusRegister->getRegisterValue(registerNumber, &returnedValue);
 
 	// TODO : We have to find how to get register value
 

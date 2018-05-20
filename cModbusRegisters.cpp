@@ -6,6 +6,7 @@
  */
 
 #include "cModbusRegisters.h"
+#include <stddef.h>
 
 cModbusRegisters::cModbusRegisters(cDatabase *ptrDatabase) {
 	this->DB 					= ptrDatabase;
@@ -29,15 +30,12 @@ int8_t cModbusRegisters:: getRegisterValue(uint16_t registerNumber, uint16_t *re
 int8_t cModbusRegisters::getDatabaseId(uint16_t registerNumber, uint32_t *databaseId){
 	int8_t returnValue = 0;
 
-	if (registerNumber < this->lookupTableLength){
+	if (registerNumber < this->lookupTableLength && lookupTable != NULL ){
 		*databaseId = this->lookupTable[registerNumber];
 		returnValue = 1;
 	}
-	else{
-		returnValue = 0;
-	}
 
-	return databaseId;
+	return returnValue;
 }
 
 uint8_t cModbusRegisters::initLookupTable(uint32_t *ptrLookupTable, uint16_t lookupTableLength){

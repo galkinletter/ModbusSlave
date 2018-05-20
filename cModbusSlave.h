@@ -9,6 +9,8 @@
 #define CMODBUSSLAVE_H_
 
 #include "Arduino.h"
+#include "cModbusRegisters.h"
+
 
 #define BUFFER_SIZE			64
 #define POSITION_ADDRESS	0
@@ -65,13 +67,15 @@
 
 class cModbusSlave {
 public:
-	cModbusSlave(HardwareSerial *serial, uint8_t myAddress);
+	cModbusSlave(HardwareSerial *serial, uint8_t myAddress, cModbusRegisters *modbusRegister);
 	void Run(void);
 
 private:
 	HardwareSerial *stream;
 
 	bool isPackageReady;
+
+	cModbusRegisters *modbusRegister;
 
 	uint8_t inBuffer[BUFFER_SIZE];
 	uint8_t inBufferLength;
